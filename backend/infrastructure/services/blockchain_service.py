@@ -15,9 +15,10 @@ class BlockchainService:
         
         if not settings.SOLANA_PRIVATE_KEY:
             return {
-                "txHash": f"dummy_{data_hash[:10]}",
+                "txHash": f"pending_{data_hash[:10]}",
                 "pdf_hash": data_hash,
-                "status": "DUMMY_SUCCESS"
+                "status": "DUMMY_SUCCESS",
+                "message": "Modo demo: certificación simulada"
             }
 
         try:
@@ -30,10 +31,41 @@ class BlockchainService:
                 else:
                     keypair = Keypair.from_seed(private_key_bytes[:32])
             except ValueError:
-                # If not hex, try base58 or other formats if needed, but hex is common in these tests
                 raise InfrastructureError("La llave privada de Solana no tiene un formato hexadecimal válido.")
             
-            # Standard Solana Memo Program (This one is valid Base58)
+            # Check wallet balance before attempting transaction
+            try:
+                balance_resp = client.get_balance(keypair.pubkey())
+                balance = balance_resp.value
+                print(f"Wallet balance: {balance / 10**9} SOL")
+                
+                if balance == 0:
+                    # Try to request airdrop for Devnet
+                    try:
+                        print("Requesting Devnet SOL airdrop...")
+                        airdrop_resp = client.request_airdrop(keypair.pubkey(), 1_000_000_000)
+                        if airdrop_resp.value:
+                            import time
+                            time.sleep(10)
+                            balance_resp = client.get_balance(keypair.pubkey())
+                            balance = balance_resp.value
+                            print(f"Balance after airdrop: {balance / 10**9} SOL")
+                    except Exception as airdrop_err:
+                        print(f"Airdrop failed: {airdrop_err}")
+                
+                if balance == 0:
+                    return {
+                        "txHash": f"pending_{data_hash[:10]}",
+                        "pdf_hash": data_hash,
+                        "status": "PENDING_FUNDS",
+                        "message": "Wallet sin fondos SOL. Certificación registrada localmente, pendiente de confirmación on-chain.",
+                        "wallet": str(keypair.pubkey()),
+                        "faucet_url": "https://faucet.solana.com"
+                    }
+            except Exception as balance_err:
+                print(f"Balance check failed: {balance_err}")
+            
+            # Standard Solana Memo Program
             memo_program_id = Pubkey.from_string("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr")
             memo_instruction = Instruction(memo_program_id, data_hash.encode('utf-8'), [])
             
@@ -53,12 +85,23 @@ class BlockchainService:
                 response = client.send_transaction(txn)
                 tx_hash = str(response.value)
             except Exception as e:
-                raise InfrastructureError(f"Error al enviar la transacción a Solana: {str(e)}")
+                error_msg = str(e)
+                if "no record of a prior credit" in error_msg or "insufficient" in error_msg.lower():
+                    return {
+                        "txHash": f"pending_{data_hash[:10]}",
+                        "pdf_hash": data_hash,
+                        "status": "PENDING_FUNDS",
+                        "message": "Fondos insuficientes. Certificación registrada localmente.",
+                        "wallet": str(keypair.pubkey()),
+                        "faucet_url": "https://faucet.solana.com"
+                    }
+                raise InfrastructureError(f"Error al enviar la transacción a Solana: {error_msg}")
             
             return {
                 "status": "SUCCESS",
                 "txHash": tx_hash,
-                "pdf_hash": data_hash
+                "pdf_hash": data_hash,
+                "message": "Certificación confirmada en Solana Devnet"
             }
         except Exception as e:
             import traceback
