@@ -23,8 +23,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - backend
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     networks:
       - coolify
     restart: unless-stopped
