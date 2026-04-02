@@ -184,9 +184,9 @@ export const ProductosPage = () => {
                                             </div>
                                             <div className="flex flex-col items-end gap-2">
                                                 <div className="text-right">
-                                                    <p className="text-xl font-bold text-emerald-400 font-mono">${p.precios.USD} <span className="text-xs opacity-50 uppercase tracking-tighter">USD</span></p>
-                                                    <p className="text-xs text-muted font-mono">${p.precios.COP} COP</p>
-                                                </div>
+                                                     <p className="text-xl font-bold text-emerald-400 font-mono">${(p.precios?.venta || p.precios?.COP || 0).toLocaleString('es-CO')} <span className="text-xs opacity-50 uppercase tracking-tighter">COP</span></p>
+                                                     <p className="text-xs text-muted font-mono">Compra: ${(p.precios?.compra || p.precios?.USD || 0).toLocaleString('es-CO')} COP</p>
+                                                 </div>
                                                 {user?.is_administrator && (
                                                     <button
                                                         onClick={() => confirmDelete(p.codigo)}
