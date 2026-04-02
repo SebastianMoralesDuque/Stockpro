@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default=f"postgresql://{env('DB_USER')}:{env('DB_PASSWORD')}@{env('DB_HOST')}:{env('DB_PORT')}/{env('DB_NAME')}")
+    'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
 }
 
 
@@ -200,6 +200,7 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOW_ALL_ORIGINS = True  # For development purposes
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://stockpro.sebastianmorales.sbs",
     "https://pruebatecnica-production-38af.up.railway.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",

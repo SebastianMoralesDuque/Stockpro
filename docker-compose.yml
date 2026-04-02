@@ -1,0 +1,41 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=False
+      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@nkeu11a2lqozvsclpblrxp4j:5432/postgres
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - SOLANA_PRIVATE_KEY=${SOLANA_PRIVATE_KEY}
+    depends_on:
+      - db-check
+    networks:
+      - coolify
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - coolify
+    restart: unless-stopped
+
+  db-check:
+    image: postgres:16-alpine
+    entrypoint: ["sh", "-c", "until pg_isready -h nkeu11a2lqozvsclpblrxp4j -p 5432; do echo 'Waiting for DB...'; sleep 2; done"]
+    networks:
+      - coolify
+    restart: "no"
+
+networks:
+  coolify:
+    external: true
