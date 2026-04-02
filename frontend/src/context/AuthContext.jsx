@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
     // Dynamic API instance configuration
     const api = useMemo(() => {
-        const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        const baseURL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:8000';
         const instance = axios.create({
             baseURL: `${baseURL}/api`,
         });
