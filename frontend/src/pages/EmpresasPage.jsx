@@ -74,12 +74,12 @@ export const EmpresasPage = () => {
     };
 
     return (
-        <div className="space-y-12 max-w-6xl mx-auto h-[calc(100vh-6rem)] flex flex-col">
-            <div className="flex flex-col md:flex-row gap-12 h-full">
+        <div className="space-y-8 md:space-y-12 max-w-6xl mx-auto h-[calc(100vh-6rem)] flex flex-col pt-12 lg:pt-0">
+            <div className="flex flex-col lg:flex-row gap-6 md:gap-12 h-full">
                 {user?.is_administrator && (
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex-1">
-                        <div className="glass-card p-8 rounded-3xl sticky top-0 border-indigo-500/10">
-                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="w-full lg:w-96 shrink-0">
+                        <div className="glass-card p-5 md:p-8 rounded-3xl border-indigo-500/10">
+                            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
                                 <PlusCircle className="text-indigo-500" /> Nueva Empresa
                             </h3>
                             {feedback && <Feedback {...feedback} />}
@@ -96,16 +96,16 @@ export const EmpresasPage = () => {
                     </motion.div>
                 )}
 
-                <div className="flex-[2] flex flex-col h-full overflow-hidden">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-2xl font-bold flex items-center gap-3">
+                <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <h3 className="text-xl md:text-2xl font-bold flex items-center gap-3">
                             <Building2 className="text-indigo-500" /> Directorio
                         </h3>
                         <SearchInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar empresa..." />
                     </div>
 
                     {fetching ? (
-                        <div className="flex justify-center p-20"><LoadingSpinner size={40} /></div>
+                        <div className="flex justify-center p-10 md:p-20"><LoadingSpinner size={40} /></div>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 overflow-y-auto pr-2 pb-20 custom-scrollbar">
                             <AnimatePresence>
@@ -116,21 +116,21 @@ export const EmpresasPage = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         key={emp.nit}
-                                        className="glass-card p-6 rounded-2xl flex justify-between items-center group shrink-0"
+                                        className="glass-card p-4 md:p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 group shrink-0"
                                     >
-                                        <div className="flex items-center gap-5">
-                                            <div className="p-4 rounded-xl bg-white/5 group-hover:bg-indigo-600/10 transition-colors">
-                                                <Building2 size={24} className="group-hover:text-indigo-500 transition-colors" />
+                                        <div className="flex items-center gap-4 md:gap-5 w-full sm:w-auto">
+                                            <div className="p-3 md:p-4 rounded-xl bg-white/5 group-hover:bg-indigo-600/10 transition-colors shrink-0">
+                                                <Building2 size={20} md:size={24} className="group-hover:text-indigo-500 transition-colors" />
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-lg">{emp.nombre}</p>
-                                                <p className="text-sm text-muted">NIT: {emp.nit} • {emp.direccion}</p>
+                                            <div className="min-w-0">
+                                                <p className="font-bold text-base md:text-lg truncate">{emp.nombre}</p>
+                                                <p className="text-xs md:text-sm text-muted truncate">NIT: {emp.nit} • {emp.direccion}</p>
                                             </div>
                                         </div>
                                         {user?.is_administrator && (
                                             <button
                                                 onClick={() => confirmDelete(emp.nit)}
-                                                className="p-3 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-all"
+                                                className="p-3 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-all self-end sm:self-auto"
                                             >
                                                 <Trash2 size={20} />
                                             </button>
@@ -139,7 +139,7 @@ export const EmpresasPage = () => {
                                 ))}
                             </AnimatePresence>
                             {filteredEmpresas.length === 0 && (
-                                <p className="text-center py-20 text-muted">No se encontraron empresas.</p>
+                                <p className="text-center py-10 md:py-20 text-muted">No se encontraron empresas.</p>
                             )}
                         </div>
                     )}

@@ -111,27 +111,29 @@ export const InventarioPage = () => {
     };
 
     return (
-        <div className="space-y-8 max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="space-y-6 md:space-y-8 max-w-5xl mx-auto pt-12 lg:pt-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6">
                 <div>
-                    <h2 className="text-4xl font-bold tracking-tight text-white mb-2">Reporte de Inventario</h2>
-                    <p className="text-muted">Consolidado general de existencias y valoración</p>
+                    <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-white mb-2">Reporte de Inventario</h2>
+                    <p className="text-muted text-sm md:text-base">Consolidado general de existencias y valoración</p>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 w-full md:w-auto">
                     <Button
                         onClick={certifyBlockchain}
                         loading={certLoading}
                         variant="primary"
+                        className="text-xs md:text-sm"
                     >
-                        {certLoading ? 'Certificando en Solana...' : <><ShieldCheck size={20} /> Certificar con Solana</>}
+                        {certLoading ? 'Certificando...' : <><ShieldCheck size={16} md:size={20} /> <span className="hidden sm:inline">Certificar con Solana</span><span className="sm:hidden">Certificar</span></>}
                     </Button>
                     <Button
                         onClick={downloadPDF}
                         variant="secondary"
                         loading={pdfLoading}
                         disabled={pdfLoading}
+                        className="text-xs md:text-sm"
                     >
-                        {pdfLoading ? 'Generando PDF...' : <><Download size={20} /> Descargar Reporte</>}
+                        {pdfLoading ? 'Generando...' : <><Download size={16} md:size={20} /> <span className="hidden sm:inline">Descargar Reporte</span><span className="sm:hidden">PDF</span></>}
                     </Button>
                 </div>
             </div>
@@ -144,25 +146,25 @@ export const InventarioPage = () => {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="glass-card border-indigo-500/30 p-8 rounded-3xl bg-indigo-500/5 mb-8">
-                            <div className="flex items-start gap-6">
-                                <div className="p-4 bg-indigo-500/20 rounded-2xl text-indigo-400">
-                                    <ShieldCheck size={32} />
+                        <div className="glass-card border-indigo-500/30 p-5 md:p-8 rounded-3xl bg-indigo-500/5 mb-6 md:mb-8">
+                            <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
+                                <div className="p-3 md:p-4 bg-indigo-500/20 rounded-2xl text-indigo-400 shrink-0">
+                                    <ShieldCheck size={24} md:size={32} />
                                 </div>
-                                <div className="flex-1">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h3 className="text-2xl font-bold text-indigo-100">Certificación On-Chain</h3>
+                                <div className="flex-1 w-full">
+                                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3 md:mb-4">
+                                        <h3 className="text-lg md:text-2xl font-bold text-indigo-100">Certificación On-Chain</h3>
                                         <span className="text-[10px] font-black bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full uppercase tracking-widest">Devnet Verified</span>
                                     </div>
-                                    <div className="bg-indigo-500/10 p-4 rounded-2xl mb-6 border border-indigo-500/10">
+                                    <div className="bg-indigo-500/10 p-3 md:p-4 rounded-2xl mb-4 md:mb-6 border border-indigo-500/10">
                                         <p className="text-sm leading-relaxed italic text-indigo-200">"{certResult.ai_analysis}"</p>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
+                                        <div className="bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
                                             <p className="text-[10px] text-muted uppercase font-black mb-2 tracking-widest">SHA-256 PDF Context</p>
                                             <p className="text-xs font-mono break-all text-slate-300">{certResult.pdf_hash}</p>
                                         </div>
-                                        <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
+                                        <div className="bg-black/30 p-3 md:p-4 rounded-2xl border border-white/5">
                                             <p className="text-[10px] text-muted uppercase font-black mb-2 tracking-widest">Solana Transaction Hash</p>
                                             {certResult.txHash ? (
                                                 <a
@@ -200,36 +202,36 @@ export const InventarioPage = () => {
                 />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-[calc(100vh-14rem)]">
-                <div className="md:col-span-2 glass-card rounded-3xl overflow-hidden shadow-2xl flex flex-col h-full">
-                    <div className="bg-white/5 sticky top-0 z-10 border-b border-white/5">
-                        <table className="w-full text-left border-collapse">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-[calc(100vh-14rem)]">
+                <div className="lg:col-span-2 glass-card rounded-3xl overflow-hidden shadow-2xl flex flex-col h-full order-2 lg:order-1">
+                    <div className="bg-white/5 sticky top-0 z-10 border-b border-white/5 overflow-x-auto">
+                        <table className="w-full text-left border-collapse min-w-[500px]">
                             <thead>
                                 <tr>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 w-1/2">Producto</th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 w-1/4">Empresa</th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right w-1/4">Valoración</th>
+                                    <th className="p-4 md:p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 w-1/2">Producto</th>
+                                    <th className="p-4 md:p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 w-1/4">Empresa</th>
+                                    <th className="p-4 md:p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right w-1/4">Valoración</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
-                    <div className="overflow-y-auto flex-1 custom-scrollbar">
+                    <div className="overflow-y-auto flex-1 custom-scrollbar overflow-x-auto">
                         {fetching ? (
-                            <div className="flex justify-center p-20">
+                            <div className="flex justify-center p-10 md:p-20">
                                 <LoadingSpinner size={40} />
                             </div>
                         ) : (
                             <>
-                                <table className="w-full text-left border-collapse">
+                                <table className="w-full text-left border-collapse min-w-[500px]">
                                     <tbody>
                                         {filteredProductos.map(p => (
                                             <tr key={p.codigo} className="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
-                                                <td className="p-5 w-1/2">
-                                                    <p className="font-bold text-slate-100">{p.nombre}</p>
+                                                <td className="p-4 md:p-5 w-1/2">
+                                                    <p className="font-bold text-slate-100 text-sm md:text-base">{p.nombre}</p>
                                                     <p className="text-[10px] text-muted font-mono">{p.codigo}</p>
                                                 </td>
-                                                <td className="p-5 text-sm text-indigo-300/60 font-medium w-1/4">{p.empresa}</td>
-                                                <td className="p-5 text-right font-mono font-bold text-emerald-400 w-1/4">
+                                                <td className="p-4 md:p-5 text-sm text-indigo-300/60 font-medium w-1/4">{p.empresa}</td>
+                                                <td className="p-4 md:p-5 text-right font-mono font-bold text-emerald-400 w-1/4">
                                                     {Object.entries(p.precios).map(([curr, price]) => (
                                                         <div key={curr} className="text-xs">{price} <span className="text-[10px] opacity-50">{curr}</span></div>
                                                     ))}
@@ -238,17 +240,17 @@ export const InventarioPage = () => {
                                         ))}
                                     </tbody>
                                 </table>
-                                {filteredProductos.length === 0 && <p className="text-center py-20 text-muted">No se encontraron resultados.</p>}
+                                {filteredProductos.length === 0 && <p className="text-center py-10 md:py-20 text-muted">No se encontraron resultados.</p>}
                             </>
                         )}
                     </div>
                 </div>
 
-                <div className="glass-card p-8 rounded-3xl h-fit border-indigo-500/10 sticky top-0">
-                    <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-white">
+                <div className="glass-card p-5 md:p-8 rounded-3xl border-indigo-500/10 sticky top-20 lg:top-0 order-1 lg:order-2">
+                    <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
                         <Mail className="text-indigo-500" /> Compartir Reporte
                     </h3>
-                    <p className="text-sm text-muted mb-6">Envía el reporte de inventario directamente a cualquier correo electrónico.</p>
+                    <p className="text-sm text-muted mb-4 md:mb-6">Envía el reporte de inventario directamente a cualquier correo electrónico.</p>
 
                     <Feedback {...emailFeedback} />
 

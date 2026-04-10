@@ -91,11 +91,11 @@ export const ProductosPage = () => {
     };
 
     return (
-        <div className="space-y-12 max-w-6xl mx-auto h-[calc(100vh-6rem)] flex flex-col">
-            <div className="flex flex-col md:flex-row gap-12 h-full">
-                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex-1">
-                    <div className="glass-card p-8 rounded-3xl sticky top-0 border-violet-500/10 shadow-2xl">
-                        <h3 className="text-2xl font-bold mb-6 flex items-center gap-3 text-white">
+        <div className="space-y-8 md:space-y-12 max-w-6xl mx-auto h-[calc(100vh-6rem)] flex flex-col pt-12 lg:pt-0">
+            <div className="flex flex-col lg:flex-row gap-6 md:gap-12 h-full">
+                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="w-full lg:w-96 shrink-0">
+                    <div className="glass-card p-5 md:p-8 rounded-3xl border-violet-500/10 shadow-2xl">
+                        <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
                             <PackagePlus className="text-violet-500" /> Nuevo Producto
                         </h3>
                         {feedback && <Feedback {...feedback} />}
@@ -104,7 +104,7 @@ export const ProductosPage = () => {
                             <Input placeholder="Nombre del producto" value={form.nombre} onChange={e => setForm({ ...form, nombre: e.target.value })} required />
 
                             <textarea
-                                className="input-field min-h-[120px] pt-4 custom-scrollbar"
+                                className="input-field min-h-[100px] md:min-h-[120px] pt-4 custom-scrollbar"
                                 placeholder="Características y descripción..."
                                 value={form.caracteristicas}
                                 onChange={e => setForm({ ...form, caracteristicas: e.target.value })}
@@ -120,7 +120,7 @@ export const ProductosPage = () => {
                                 <select
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 outline-none transition-all duration-300 focus:border-violet-500/50 focus:bg-white/10 text-slate-100 cursor-pointer appearance-none"
                                     style={{
-                                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/svg%3E")`,
                                         backgroundRepeat: 'no-repeat',
                                         backgroundPosition: 'right 1rem center',
                                         backgroundSize: '1.25rem'
@@ -145,18 +145,18 @@ export const ProductosPage = () => {
                     </div>
                 </motion.div>
 
-                <div className="flex-[2] flex flex-col h-full overflow-hidden">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-2xl font-bold flex items-center gap-3 text-white">
+                <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <h3 className="text-xl md:text-2xl font-bold flex items-center gap-3 text-white">
                             <ShoppingBag className="text-violet-500" /> Catálogo
                         </h3>
                         <SearchInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar producto..." />
                     </div>
 
                     {fetching ? (
-                        <div className="flex justify-center p-20"><LoadingSpinner size={40} /></div>
+                        <div className="flex justify-center p-10 md:p-20"><LoadingSpinner size={40} /></div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-6 overflow-y-auto pr-2 pb-20 custom-scrollbar">
+                        <div className="grid grid-cols-1 gap-4 md:gap-6 overflow-y-auto pr-2 pb-20 custom-scrollbar">
                             <AnimatePresence>
                                 {filteredProductos.map(p => (
                                     <motion.div
@@ -165,27 +165,27 @@ export const ProductosPage = () => {
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         key={p.codigo}
-                                        className="glass-card p-6 rounded-3xl border-transparent hover:border-violet-500/20 shadow-xl group shrink-0"
+                                        className="glass-card p-4 md:p-6 rounded-3xl border-transparent hover:border-violet-500/20 shadow-xl group shrink-0"
                                     >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-3 rounded-2xl bg-white/5 text-violet-400 group-hover:bg-violet-600/10 transition-colors">
-                                                    <Box size={24} />
+                                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+                                            <div className="flex items-start gap-3 w-full sm:w-auto">
+                                                <div className="p-2 md:p-3 rounded-2xl bg-white/5 text-violet-400 group-hover:bg-violet-600/10 transition-colors shrink-0">
+                                                    <Box size={20} md:size={24} />
                                                 </div>
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
+                                                <div className="min-w-0">
+                                                    <div className="flex flex-wrap items-center gap-2 mb-1">
                                                         <span className="text-[10px] font-black tracking-widest uppercase py-0.5 px-2 rounded bg-violet-500/20 text-violet-400">
                                                             {p.codigo}
                                                         </span>
-                                                        <h3 className="text-lg font-bold text-slate-100">{p.nombre}</h3>
+                                                        <h3 className="text-base md:text-lg font-bold text-slate-100 truncate">{p.nombre}</h3>
                                                     </div>
-                                                    <p className="text-xs text-indigo-400 font-medium">NIT Empresa: {p.empresa}</p>
+                                                    <p className="text-xs text-indigo-400 font-medium">NIT: {p.empresa}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col items-end gap-2">
+                                            <div className="flex items-center justify-between sm:flex-col sm:items-end gap-2 w-full sm:w-auto">
                                                 <div className="text-right">
-                                                     <p className="text-xl font-bold text-emerald-400 font-mono">${(p.precios?.venta || p.precios?.COP || 0).toLocaleString('es-CO')} <span className="text-xs opacity-50 uppercase tracking-tighter">COP</span></p>
-                                                     <p className="text-xs text-muted font-mono">Compra: ${(p.precios?.compra || p.precios?.USD || 0).toLocaleString('es-CO')} COP</p>
+                                                     <p className="text-lg md:text-xl font-bold text-emerald-400 font-mono">${(p.precios?.venta || p.precios?.COP || 0).toLocaleString('es-CO')} <span className="text-xs opacity-50 uppercase tracking-tighter">COP</span></p>
+                                                     <p className="text-xs text-muted font-mono">Compra: ${(p.precios?.compra || p.precios?.USD || 0).toLocaleString('es-CO')}</p>
                                                  </div>
                                                 {user?.is_administrator && (
                                                     <button
@@ -198,14 +198,14 @@ export const ProductosPage = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="bg-black/20 p-4 rounded-2xl border border-white/5">
-                                            <p className="text-sm text-slate-400 leading-relaxed">{p.caracteristicas}</p>
+                                        <div className="bg-black/20 p-3 md:p-4 rounded-2xl border border-white/5">
+                                            <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 md:line-clamp-none">{p.caracteristicas}</p>
                                         </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
                             {filteredProductos.length === 0 && (
-                                <p className="text-center py-20 text-muted">No se encontraron productos.</p>
+                                <p className="text-center py-10 md:py-20 text-muted">No se encontraron productos.</p>
                             )}
                         </div>
                     )}
