@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import umamiPlugin from '../../shared/vite-plugin-umami.js'
+import umamiPlugin from './vite-plugin-umami.js'
 
 export default defineConfig({
     plugins: [
