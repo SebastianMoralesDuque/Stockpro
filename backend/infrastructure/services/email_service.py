@@ -1,6 +1,7 @@
 import base64
 import requests
 from django.conf import settings
+from shared_domain.exceptions import InfrastructureError
 
 
 class EmailService:
@@ -9,7 +10,9 @@ class EmailService:
         api_key = getattr(settings, 'RESEND_API_KEY', None)
 
         if not api_key or 're_' not in api_key:
-            raise ValueError("RESEND_API_KEY inválida. Verifica la variable de entorno RESEND_API_KEY.")
+            raise InfrastructureError(
+                "RESEND_API_KEY inválida. Verifica la variable de entorno RESEND_API_KEY."
+            )
 
         try:
             url = "https://api.resend.com/emails"
@@ -45,16 +48,16 @@ class EmailService:
                 msg = body.get('message', str(body))
                 # Provide actionable guidance for common Resend errors
                 if 'testing emails' in msg.lower() or 'verify a domain' in msg.lower():
-                    raise Exception(
+                    raise InfrastructureError(
                         f"Resend solo permite enviar correos de prueba a la dirección "
                         f"registrada. Para enviar a otros destinatarios, verifica un "
                         f"dominio en https://resend.com/domains y configura "
                         f"RESEND_FROM_ADDRESS. Detalle: {msg}"
                     )
-                raise Exception(f"Error Resend (HTTP {response.status_code}): {msg}")
+                raise InfrastructureError(f"Error Resend (HTTP {response.status_code}): {msg}")
 
             return response.json()
+        except InfrastructureError:
+            raise
         except Exception as e:
-            if str(e).startswith("Resend solo permite"):
-                raise
-            raise Exception(f"Error al enviar email: {str(e)}")
+            raise InfrastructureError(f"Error al enviar email: {str(e)}")
