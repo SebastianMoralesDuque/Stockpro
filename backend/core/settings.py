@@ -208,6 +208,9 @@ CSRF_TRUSTED_ORIGINS = [
 
 # PARA ENVÍO DE CORREOS REALES: Regístrate en resend.com y obtén tu API Key
 RESEND_API_KEY = env('RESEND_API_KEY', default=None)
+# Dirección "from" para Resend. Requiere un dominio verificado en resend.com/domains
+# para enviar a destinatarios que no sean el dueño de la cuenta.
+RESEND_FROM_ADDRESS = env('RESEND_FROM_ADDRESS', default='StockPro <onboarding@resend.dev>')
 
 # CONFIGURACIÓN BLOCKCHAIN (SOLANA DEVNET)
 SOLANA_RPC_URL = env('SOLANA_RPC_URL', default="https://api.devnet.solana.com")
