@@ -72,4 +72,4 @@ print(f'Demo data: {Empresa.objects.count()} empresas, {Producto.objects.count()
 " || true
 
 echo "Starting Gunicorn..."
-exec gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
+exec gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers "${GUNICORN_WORKERS:-2}" --timeout 120
