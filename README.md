@@ -60,6 +60,10 @@ DB_PASSWORD=your_password
 DB_HOST=aws-1-eu-west-1.pooler.supabase.com
 DB_PORT=6543
 GOOGLE_API_KEY=your_key
+# Análisis de inventario: Ollama local (puente MiniMax cloud), sin API key
+OLLAMA_BASE_URL=http://host.docker.internal:11434/v1
+OLLAMA_MODEL=minimax-m3:cloud
+OLLAMA_API_KEY=not-needed
 RESEND_API_KEY=your_key
 SOLANA_PRIVATE_KEY=your_hex_key
 ```

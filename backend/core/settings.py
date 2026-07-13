@@ -219,5 +219,11 @@ SOLANA_RPC_URL = env('SOLANA_RPC_URL', default="https://api.devnet.solana.com")
 SOLANA_PRIVATE_KEY = env('SOLANA_PRIVATE_KEY', default=None)
 
 
-# GOOGLE GEMINI API KEY
+# GOOGLE GEMINI API KEY (legacy — el análisis de inventario ahora usa Ollama)
 GOOGLE_API_KEY = env('GOOGLE_API_KEY', default=None)
+
+# OLLAMA — endpoint OpenAI-compatible local (puente a MiniMax cloud, sin API key)
+# Desde el contenedor se alcanza vía host.docker.internal (ver extra_hosts en compose).
+OLLAMA_BASE_URL = env('OLLAMA_BASE_URL', default='http://host.docker.internal:11434/v1')
+OLLAMA_MODEL = env('OLLAMA_MODEL', default='minimax-m3:cloud')
+OLLAMA_API_KEY = env('OLLAMA_API_KEY', default='not-needed')

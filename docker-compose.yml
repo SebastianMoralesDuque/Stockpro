@@ -6,13 +6,19 @@ services:
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=False
-      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@nkeu11a2lqozvsclpblrxp4j:5432/postgres
+      - DATABASE_URL=postgresql://postgres:***@nkeu11a2lqozvsclpblrxp4j:5432/postgres
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-minimax-m3:cloud}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY:-not-needed}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - SOLANA_RPC_URL=https://api.devnet.solana.com
       - SOLANA_PRIVATE_KEY=${SOLANA_PRIVATE_KEY}
     depends_on:
       - db-check
+    # Permite al contenedor alcanzar Ollama en el host (puente MiniMax cloud)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - coolify
     restart: unless-stopped
