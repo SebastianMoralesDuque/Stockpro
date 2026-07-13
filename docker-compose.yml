@@ -6,7 +6,7 @@ services:
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=False
-      - DATABASE_URL=postgresql://postgres:***@nkeu11a2lqozvsclpblrxp4j:5432/postgres
+      - DATABASE_URL=postgresql://postgres:CJUI1i6zbMaUO40Wg22vzDUCzGFF2a56kPsoY3rFU3StE9QT4G7VRemmK4CyX4pd@nkeu11a2lqozvsclpblrxp4j:5432/postgres
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
       - OLLAMA_MODEL=${OLLAMA_MODEL:-minimax-m3:cloud}
